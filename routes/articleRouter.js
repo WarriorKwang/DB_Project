@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const articleListController = require('../controllers/articleListController');
+const articleReadController = require('../controllers/articleReadController');
+const articleWriteController = require('../controllers/articleWriteController');
 
-// router.get('/page', (req, res)=>{
-//     res.send('article page');
-// });
 router.get('/page', articleListController.getArticleFirstPage);
 router.get('/page/:page', articleListController.getArticleList);
-router.get('/:page')
-
+router.get('/:page',articleReadController.getArticlePage);
+router.get('/write', articleWriteController.writeArticlePost); // 동작 확인 해봐야함
+router.get('/modify/:page');
 module.exports = router;

@@ -1,6 +1,5 @@
 const listModel = require('../models/articleListModel');
 const express = require('express');
-const e = require('express');
 
 exports.getArticleList = (req, res, next)=>{
     let idx = req.params.page;

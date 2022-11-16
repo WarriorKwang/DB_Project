@@ -6,13 +6,10 @@ const conn = maria.createConnection({
     database:'test'
 });
 
-
-
-module.exports = {writeArticlePost(datas, callback){
-        let sql = 'INSERT INTO BOARD_ARTICLE(stock_code, id, title, content) VALUES (?,?,?,?)'; // idx는 autoinc, date default가 NOW()
-        conn.query(sql, datas, (err, rows)=>{
-            if(err) console.error('ERROR: ' + err);
-            callback();
-        });
-    }
+module.exports.writeArticlePost = (datas, callback)=>{
+    let sql = 'INSERT INTO BOARD_ARTICLE(stock_code, id, title, content) VALUES (?,?,?,?)'; // idx는 autoinc, date default가 NOW()
+    conn.query(sql, datas, (err, rows)=>{
+        if(err) console.error('ERROR: ' + err);
+        callback();
+    });
 }

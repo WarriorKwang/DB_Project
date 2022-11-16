@@ -10,6 +10,6 @@ exports.writeArticlePost = (req, res)=>{
     let datas = [stock_code, id, title, content];
     ArticleWriteModel.writeArticlePost(datas, ()=>{
         // data를 쓴 다음?
-        // article로 가느냐? 작성한 글로 가느냐?
+        // article List로 가느냐? 작성한 글로 가느냐?
     });
 }
