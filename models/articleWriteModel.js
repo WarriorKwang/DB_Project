@@ -1,11 +1,11 @@
-require('dotenv');
+require('dotenv').config();
 const maria = require('mysql');
 const conn = maria.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWD,
     port: process.env.DB_PORT,
-    database:'test'
+    database:'stock'
 });
 
 
