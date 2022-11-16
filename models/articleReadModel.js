@@ -1,11 +1,12 @@
+require('dotenv');
 const maria = require('mysql');
 const conn = maria.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '1234',
-    database: 'test'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWD,
+    port: process.env.DB_PORT,
+    database:'test'
 });
-
 module.exports.getArticlePage = (idx, callback)=>{
     let sql = 'SELECT * FROM BOARD_ARTICLE WHERE post_idx = ?';
     conn.query(sql, idx, (err, result, fields)=>{
