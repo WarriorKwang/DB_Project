@@ -24,11 +24,15 @@ exports.deleteComment = function(req, res){
     if(req.session.user_id != null){
         let comment_idx = req.params.comment_idx;
         let id = req.session.user_id;
-        let datas = [id, comment_idx];
-        console.log(datas)
-        commentModel.deleteComment(datas, function(result){
-            res.sendStatus(result);
-        })
+        if(req.session.permission == 2) {
+            commentModel.deleteComment2(comment_idx, function(result){
+                res.sendStatus(result);
+            })
+        } else {
+            commentModel.deleteComment([id, comment_idx], function(result){
+                res.sendStatus(result);
+            })
+        }
     }
     else{
         res.sendStatus(400);

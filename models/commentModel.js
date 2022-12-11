@@ -28,6 +28,14 @@ module.exports.deleteComment = function(datas, callback){
     });
 }
 
+module.exports.deleteComment2 = function(cmt_idx, callback){
+    let sql = 'DELETE FROM BOARD_COMMENT WHERE comment_idx = ?';
+    conn.query(sql, cmt_idx, function(err, result){
+        if(err) callback(400);
+        else callback(200);
+    });
+}
+
 module.exports.updateComment = function(datas, callback){
     let sql ='UPDATE BOARD_COMMENT SET content = ? WHERE comment_idx = ? AND user_id = ?';
     conn.query(sql, datas, function(err, result){
