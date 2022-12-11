@@ -48,10 +48,10 @@ exports.updateArticle = (req, res) => {
     let id = req.session.user_id;
     let datas = [stock_code, id, title, content, topic];
     articleModel.UpdateArticlePost(datas, function (err, result) {
-      res.status(result);
+      res.sendStatus(result);
     });
   } else {
-    res.status(400);
+    res.sendStatus(400);
   }
 };
 
@@ -61,10 +61,10 @@ exports.deleteArticle = function (req, res) {
     let post_idx = req.params.article_idx;
     let datas = [id, post_idx];
     articleModel.deleteArticlePost(datas, function (result) {
-      res.status(result);
+      res.sendStatus(result);
     });
   } else {
-    res.status(400);
+    res.sendStatus(400);
   }
 };
 

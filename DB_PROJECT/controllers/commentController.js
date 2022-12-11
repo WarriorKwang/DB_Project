@@ -41,7 +41,7 @@ exports.updateComment = function(req, res){
         let comment_idx = req.body.comment_idx;
         let datas = [content, comment_idx, id];
         commentModel.updateComment(datas, function(result){
-            res.status(result);
+            res.sendStatus(result);
         })
     }
     else{

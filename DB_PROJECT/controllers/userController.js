@@ -173,10 +173,10 @@ exports.approveUser = function (req, res) {
     let id = req.body.id;
     let datas = [user_name, id];
     userModel.approveUser(datas, function (result) {
-      res.status(result);
+      res.sendStatus(result);
     });
   } else {
-    res.status(400);
+    res.sendStatus(400);
   }
 };
 
@@ -186,10 +186,10 @@ exports.declineUser = function (req, res) {
     let id = req.body.id;
     let datas = [user_name, id];
     userModel.declineUser(datas, function (result) {
-      res.status(result);
+      res.sendStatus(result);
     });
   } else {
-    res.status(400);
+    res.sendStatus(400);
   }
 };
 
