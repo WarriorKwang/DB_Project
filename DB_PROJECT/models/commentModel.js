@@ -21,7 +21,7 @@ module.exports.writeComment = (datas, callback)=>{
 }
 
 module.exports.deleteComment = function(datas, callback){
-    let sql = 'DELETE FROM BOARD_COMMENT WHERE id = ? AND comment_idx = ?';
+    let sql = 'DELETE FROM BOARD_COMMENT WHERE user_id = ? AND comment_idx = ?';
     conn.query(sql, datas, function(err, result){
         if(err) callback(400);
         else callback(200);

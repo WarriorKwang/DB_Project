@@ -23,8 +23,9 @@ exports.postComment = (req, res) =>{
 exports.deleteComment = function(req, res){
     if(req.session.user_id != null){
         let comment_idx = req.params.comment_idx;
-        let id = req.params.user_id;
-        let datas = [comment_idx, id];
+        let id = req.session.user_id;
+        let datas = [id, comment_idx];
+        console.log(datas)
         commentModel.deleteComment(datas, function(result){
             res.sendStatus(result);
         })

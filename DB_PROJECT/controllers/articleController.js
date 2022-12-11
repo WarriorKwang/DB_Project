@@ -73,6 +73,7 @@ exports.deleteArticle = function (req, res) {
 
 exports.getArticle = function (req, res) {
   let idx = req.params.article_idx;
+  articleModel.countViews(idx);
   articleModel.getArticlePost(idx, function (result) {
     res.send(result);
   });

@@ -181,3 +181,7 @@ module.exports.getArticlePost = function (idx, callback) {
     callback(result[0]);
   });
 };
+
+exports.countViews = function(idx){
+  conn.query('UPDATE BOARD_ARTICLE SET views = views + 1 WHERE post_idx = ?', idx);
+}

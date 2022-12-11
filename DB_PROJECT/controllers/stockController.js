@@ -136,8 +136,7 @@ exports.getChangingStock = async (req, res, next) => {
 exports.stockUpdate = async (req, res, next) => {
     try {
         if (req.body.submit_type === undefined || req.body.stock_code === undefined || req.body.stock_name === undefined 
-            || req.body.cop_info === undefined || req.body.market === undefined || req.body.stock_amount === undefined
-            || req.body.stockholder_name === undefined || req.body.stock_holding_amount === undefined || req.body.stock_holding_ratio === undefined) 
+            || req.body.cop_info === undefined || req.body.market === undefined || req.body.stock_amount === undefined) 
             return res.status(400).send('Bad Request');
         console.log(req.body)
         let result;
@@ -146,10 +145,10 @@ exports.stockUpdate = async (req, res, next) => {
         else if(req.body.submit_type === "submit")
         {
             stock = await stockModel.insertStock(req.body.stock_code, req.body.stock_name, req.body.stock_amount, req.body.cop_info, req.body.market);
-            stockHolder = await stockModel.insertStockHolder(req.body.stock_code, req.body.stockholder_name, req.body.stock_holding_amount, req.body.stock_holding_ratio);
+            stockHolder = await stockModel.insertStockHolder(req.body.stock_code, '없음', '0', '0');
             result = {"stock" : stock, "stockHolder" : stockHolder};
         }
-        return res.json(result);
+        return res.status(200).json(result);
     } catch {
       res.status(500).send('Internal Server Error');
     }
