@@ -73,7 +73,7 @@ exports.tradeStock = async (req, res, next)=>{
         else if(trade == 'buy')       //buy
         {
             let user_money = await stockModel.getUserMoney(user_id);
-            if(user_money < order_price* order_amount)  //가지고 있는 돈보다 구매하는 금액이 더 큼
+            if(user_money.money < order_price* order_amount)  //가지고 있는 돈보다 구매하는 금액이 더 큼
                 return res.status(400).send('Bad Request');
             else{
                 await stockModel.updateBuyUserMoney(order_amount*order_price, user_id);  //유저가 구매시 보유 자산 감소

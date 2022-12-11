@@ -25,7 +25,7 @@ module.exports.getStockList = (idx) => {
     if (idx != 0) {
       let sql =
         'SELECT stock_code AS code, cop_name AS name, market, close_price AS price, \
-          ROUND((1-close_price / y_close_price) * 100,2) AS diff, volume \
+          ROUND((close_price / y_close_price-1) * 100,2) AS diff, volume \
         FROM \
           (SELECT I.stock_code, I.cop_name, I.market, P.close_price, P.volume \
           FROM STOCK_INFO AS I INNER JOIN STOCK_PRICE AS P ON I.stock_code=P.stock_code \
@@ -51,7 +51,7 @@ module.exports.getStockList = (idx) => {
       });
     } else {
       let sql =
-        'SELECT stock_code AS code, cop_name AS name, market, close_price AS price, ROUND((1-close_price / y_close_price) * 100,2) AS diff, volume \
+        'SELECT stock_code AS code, cop_name AS name, market, close_price AS price, ROUND((close_price / y_close_price-1) * 100,2) AS diff, volume \
                       FROM ( \
                           SELECT I.stock_code, I.cop_name, I.market, P.close_price, P.volume \
                           FROM STOCK_INFO AS I INNER JOIN STOCK_PRICE AS P ON I.stock_code=P.stock_code \
@@ -433,7 +433,7 @@ module.exports.getUpStock = () => {
   return new Promise ((resolve, reject) => {
       let sql = 
       'SELECT stock_code AS code, cop_name AS name, market, close_price AS price,\
-       ROUND((1-close_price / y_close_price) * 100,2) AS diff, volume \
+       ROUND((close_price / y_close_price -1) * 100,2) AS diff, volume \
       FROM ( \
           SELECT I.stock_code, I.cop_name, I.market, P.close_price, P.volume \
           FROM STOCK_INFO AS I INNER JOIN STOCK_PRICE AS P ON I.stock_code=P.stock_code \
@@ -474,7 +474,7 @@ module.exports.getDownStock = () => {
   return new Promise ((resolve, reject) => {
       let sql = 
       'SELECT stock_code AS code, cop_name AS name, market, close_price AS price,\
-       ROUND((1-close_price / y_close_price) * 100,2) AS diff, volume \
+       ROUND((close_price / y_close_price-1) * 100,2) AS diff, volume \
       FROM ( \
           SELECT I.stock_code, I.cop_name, I.market, P.close_price, P.volume \
           FROM STOCK_INFO AS I INNER JOIN STOCK_PRICE AS P ON I.stock_code=P.stock_code \
@@ -561,7 +561,7 @@ module.exports.getSearchStockList = (keyword, idx) => {
     if (idx != 0) {
       let sql =
       'SELECT stock_code AS code, cop_name AS name, market, close_price AS price, \
-        ROUND((1-close_price / y_close_price) * 100,2) AS diff, volume \
+        ROUND((close_price / y_close_price-1) * 100,2) AS diff, volume \
       FROM \
         (SELECT I.stock_code, I.cop_name, I.market, P.close_price, P.volume \
         FROM STOCK_INFO AS I INNER JOIN STOCK_PRICE AS P ON I.stock_code=P.stock_code \
@@ -590,7 +590,7 @@ module.exports.getSearchStockList = (keyword, idx) => {
       });
     } else {
       let sql =
-        'SELECT stock_code AS code, cop_name AS name, market, close_price AS price, ROUND((1-close_price / y_close_price) * 100,2) AS diff, volume \
+        'SELECT stock_code AS code, cop_name AS name, market, close_price AS price, ROUND((close_price / y_close_price-1) * 100,2) AS diff, volume \
                       FROM ( \
                           SELECT I.stock_code, I.cop_name, I.market, P.close_price, P.volume \
                           FROM STOCK_INFO AS I INNER JOIN STOCK_PRICE AS P ON I.stock_code=P.stock_code \
