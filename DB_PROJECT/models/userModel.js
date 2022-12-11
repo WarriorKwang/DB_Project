@@ -81,7 +81,7 @@ module.exports.getUserGroupStock = (user_id) => {
     let sql =
       'SELECT G.group_name, G.stock_code, S.cop_name, S.market, S.price, S.diff, S.volume\
                     FROM USER_GROUP_STOCK AS G INNER JOIN \
-                        (SELECT stock_code, cop_name, market, close_price AS price, ROUND((1-close_price / y_close_price) * 100,2) AS diff, volume\
+                        (SELECT stock_code, cop_name, market, close_price AS price, ROUND((close_price / y_close_price-1) * 100,2) AS diff, volume\
                         FROM \
                             (SELECT I.stock_code, I.cop_name, I.market, P.close_price, P.volume \
                             FROM STOCK_INFO AS I INNER JOIN STOCK_PRICE AS P ON I.stock_code=P.stock_code \
@@ -197,7 +197,7 @@ module.exports.declineUser = function(datas, callback){
 
 module.exports.getUpUserStock = (user_id) => {
   return new Promise ((resolve, reject) => {
-      let sql = 'SELECT U.stock_code AS code, cop_name AS name, market, close_price AS price, ROUND((1-close_price / y_close_price) * 100,2) AS diff, volume \
+      let sql = 'SELECT U.stock_code AS code, cop_name AS name, market, close_price AS price, ROUND((close_price / y_close_price-1) * 100,2) AS diff, volume \
       FROM ( \
           SELECT I.stock_code, I.cop_name, I.market, P.close_price, P.volume \
           FROM STOCK_INFO AS I INNER JOIN STOCK_PRICE AS P ON I.stock_code=P.stock_code \
@@ -221,7 +221,7 @@ module.exports.getUpUserStock = (user_id) => {
                           LIMIT 1, 1 \
                       ) as tmp) \
                   ) t2 INNER JOIN USER_OWN_STOCK AS U ON t2.stock_code = U.stock_code\
-      WHERE ROUND((1-close_price / y_close_price) * 100,2) >= 0 and U.id = ?\
+      WHERE ROUND((close_price / y_close_price-1) * 100,2) >= 0 and U.id = ?\
       ORDER BY diff DESC'
       conn.query(sql, user_id, (err, rows, fields)=>{
           if(err) {
@@ -236,7 +236,7 @@ module.exports.getUpUserStock = (user_id) => {
 
 module.exports.getDownUserStock = (user_id) => {
   return new Promise ((resolve, reject) => {
-      let sql = 'SELECT U.stock_code AS code, cop_name AS name, market, close_price AS price, ROUND((1-close_price / y_close_price) * 100,2) AS diff, volume \
+      let sql = 'SELECT U.stock_code AS code, cop_name AS name, market, close_price AS price, ROUND((close_price / y_close_price-1) * 100,2) AS diff, volume \
       FROM ( \
           SELECT I.stock_code, I.cop_name, I.market, P.close_price, P.volume \
           FROM STOCK_INFO AS I INNER JOIN STOCK_PRICE AS P ON I.stock_code=P.stock_code \
@@ -260,7 +260,7 @@ module.exports.getDownUserStock = (user_id) => {
                           LIMIT 1, 1 \
                       ) as tmp) \
                   ) t2 INNER JOIN USER_OWN_STOCK AS U ON t2.stock_code = U.stock_code\
-      WHERE ROUND((1-close_price / y_close_price) * 100,2) < 0 and U.id = ?\
+      WHERE ROUND((close_price / y_close_price-1) * 100,2) < 0 and U.id = ?\
       ORDER BY diff ASC'
       conn.query(sql, user_id, (err, rows, fields)=>{
           if(err) {

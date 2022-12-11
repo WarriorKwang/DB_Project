@@ -457,7 +457,7 @@ module.exports.getUpStock = () => {
                           LIMIT 1, 1 \
                       ) as tmp) \
                   ) t2\
-      WHERE ROUND((1-close_price / y_close_price) * 100,2) >= 1\
+      WHERE ROUND((close_price / y_close_price -1) * 100,2) >= 1\
       ORDER BY diff DESC\
       LIMIT 10'
       conn.query(sql, (err, rows, fields)=>{
@@ -498,7 +498,7 @@ module.exports.getDownStock = () => {
                           LIMIT 1, 1 \
                       ) as tmp) \
                   ) t2\
-      WHERE ROUND((1-close_price / y_close_price) * 100,2) <= -1\
+      WHERE ROUND((close_price / y_close_price -1) * 100,2) <= -1\
       ORDER BY diff ASC\
       LIMIT 10'
       conn.query(sql, (err, rows, fields)=>{
