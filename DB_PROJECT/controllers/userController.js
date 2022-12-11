@@ -127,7 +127,7 @@ exports.signUp = async (req, res, next) => {
       req.body.mail_addr,
     ];
     let checkId = await userModel.checkId(datas[0]);
-    if (checkId.length) return res.status(400).send('아이디 중복');
+    if (checkId.exist_id != 0) return res.status(400).send('아이디 중복');
 
     let result = await userModel.signUp(datas);
     res.status(200).send(result);

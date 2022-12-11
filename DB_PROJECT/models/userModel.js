@@ -159,10 +159,10 @@ module.exports.updateUserInfo = (user_id, phone_number, mail_addr, user_name, bi
 
 module.exports.checkId = (user_id) => {
   return new Promise((resolve, reject) => {
-    let sql = 'SELECT id FROM USER_INFO WHERE id=?';
+    let sql = 'SELECT EXISTS(SELECT * FROM USER_INFO WHERE id = ?) as exist_id';
     conn.query(sql, user_id, (err, rows, fields) => {
       if (err) reject(err);
-      resolve(rows);
+      resolve(rows[0]);
     });
   });
 };

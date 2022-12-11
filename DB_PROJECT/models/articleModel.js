@@ -170,7 +170,10 @@ module.exports.UpdateArticlePost = (datas, callback) => {
 
 module.exports.getArticlePost = function (idx, callback) {
   let sql =
-    'SELECT title, id, content, views FROM BOARD_ARTICLE WHERE post_idx = ?';
+    'SELECT a.title, a.id, a.content, a.views, u.user_name \
+    FROM BOARD_ARTICLE AS a JOIN USER_INFO AS u \
+    ON a.id = u.id \
+    WHERE post_idx = ?'
   conn.query(sql, idx, function (err, result) {
     callback(result[0]);
   });
