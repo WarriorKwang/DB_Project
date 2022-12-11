@@ -41,19 +41,22 @@ exports.writeArticle = (req, res) => {
 };
 exports.updateArticle = (req, res) => {
   if (req.session.user_id != null) {
-    let post_idx = req.body.page;
+    let id = req.session.user_id;
+    let article_id = req.body.article_id;
     let stock_code = req.body.stock_code;
     let title = req.body.title;
     let content = req.body.content;
-    let id = req.session.user_id;
-    let datas = [stock_code, id, title, content, topic];
-    articleModel.UpdateArticlePost(datas, function (err, result) {
+    let topic = req.body.topic;
+
+    let datas = [stock_code, title, content, topic, article_id, id];
+    articleModel.UpdateArticlePost(datas, function (result) {
       res.sendStatus(result);
     });
   } else {
     res.sendStatus(400);
   }
 };
+
 
 exports.deleteArticle = function (req, res) {
   if (req.session.user_id != null) {

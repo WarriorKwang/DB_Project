@@ -159,21 +159,24 @@ module.exports.deleteArticlePost = function (datas, callback) {
   });
 };
 
+
 module.exports.UpdateArticlePost = (datas, callback) => {
   let sql =
-    'UPDATE BOARD_ARTICLE SET stock_code = ?, title = ?, content = ?, topic = ? WHERE post_idx = ? AND id = ?';
+    'UPDATE BOARD_ARTICLE SET stock_code = ?, title = ?, content = ?, topic = ? \
+      WHERE post_idx = ? AND id = ?';
   conn.query(sql, datas, (err, result) => {
     if (err) callback(400);
     else callback(200);
   });
 };
 
+
 module.exports.getArticlePost = function (idx, callback) {
   let sql =
-    'SELECT a.title, a.id, a.content, a.views, u.user_name \
+  'SELECT a.title, a.id, a.content, a.stock_code, a.topic, a.views, u.user_name \
     FROM BOARD_ARTICLE AS a JOIN USER_INFO AS u \
-    ON a.id = u.id \
-    WHERE post_idx = ?'
+      ON a.id = u.id \
+    WHERE post_idx = ?';
   conn.query(sql, idx, function (err, result) {
     callback(result[0]);
   });
