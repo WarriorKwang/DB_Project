@@ -37,6 +37,7 @@ const store = new Vuex.Store({
         logout: function (state) {
             state.userId = '';
             state.userName = '';
+            state.permission = '';
             alert('로그아웃 성공');
             router.push('/stock').then(r => r);
         }

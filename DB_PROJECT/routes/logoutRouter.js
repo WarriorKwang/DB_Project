@@ -3,6 +3,7 @@ const router = express.Router();
 
 router.get('/', function(req, res){
   delete req.session.user_id;
+  delete req.session.permission;
   res.sendStatus(200);
 })
 
