@@ -1,53 +1,76 @@
 const express = require('express');
 const articleModel = require('../models/articleModel');
 
-// exports.getList = (req, res, next)=>{
-//     let idx = req.params.page;
-//     articleModel.getArticleList(idx, (result)=>{
-//         res.send(result);
-//     });
-// }
+exports.getList = async (req, res, next)=>{
+    const stock_code = req.body.stock_code;
+    let title = '%' + req.body.title + '%';
+    const page = req.body.page;
+    let articleCount = await articleModel.getArticleCount(stock_code, title);
+    let list = await articleModel.getList(page, stock_code, title);
+    let pagination = await articleModel.getPagination(articleCount, parseInt(page));
 
-exports.getList = (req, res, next)=>{
-    let stockIdx = req.body.stockIdx;
-    let pageIdx = req.body.pageIdx;
-    
-    if(stockIdx == 0){
-        articleModel.getAllList(pageIdx, (result)=>{
-
-        })
+    let result = {
+        'articleList': list,
+        'pageLookup': pagination
     }
-
+    
+    res.json(result);
 }
 
-exports.update = (req, res)=>{
-    let idx = req.params.page;
-    let stock_code = req.body.stock_code;
-    let title = req.body.title;
-    let datas = [stock_code, title, content, id];
-    // 추가 해야함
-}
+exports.getFilteredList = (req, res, next) => {
+  let key = req.body.key;
+  articleModel.getFilteredList(key, function (result) {
+    res.send(result);
+  });
+};
 
-exports.write = (req, res)=>{
+exports.writeArticle = (req, res) => {
+  if (req.session.user_id != null) {
     let stock_code = req.body.stock_code;
-    let id = req.body.id;
     let title = req.body.title;
     let content = req.body.content;
-    let datas = [stock_code, id, title, content];
-    // 추가 해야함
-}
-
-exports.getPage = (req, res)=>{
-    let currentPage = req.body.page;
-    let articleCount;
-    let articlePerPage = 10;
-    articleModel.getPage((result)=>{
-        articleCount = result;
-        let maxPage = ((articleCount - 1)/articlePerPage) + 1;
-        let beginPage = (articleCount < 3) ? 1 : currentPage - 2;
-        let endPage = (beginPage + 4 > maxPage) ? maxPage : beginPage + 4;
-        let pagingResult = new Object();
-        pagingResult.bottom = beginPage;
-        pagingResult.top = endPage;
+    let id = req.session.user_id;
+    let topic = req.body.topic;
+    let datas = [stock_code, id, title, content, topic];
+    articleModel.writeArticlePost(datas, function (result) {
+      res.sendStatus(result);
     });
-}
+  } else {
+    res.sendStatus(400);
+  }
+};
+exports.updateArticle = (req, res) => {
+  if (req.session.user_id != null) {
+    let post_idx = req.body.page;
+    let stock_code = req.body.stock_code;
+    let title = req.body.title;
+    let content = req.body.content;
+    let id = req.session.user_id;
+    let datas = [stock_code, id, title, content, topic];
+    articleModel.UpdateArticlePost(datas, function (err, result) {
+      res.status(result);
+    });
+  } else {
+    res.status(400);
+  }
+};
+
+exports.deleteArticle = function (req, res) {
+  if (req.session.user_id != null) {
+    let id = req.session.user_id;
+    let post_idx = req.params.article_idx;
+    let datas = [id, post_idx];
+    articleModel.deleteArticlePost(datas, function (result) {
+      res.status(result);
+    });
+  } else {
+    res.status(400);
+  }
+};
+
+exports.getArticle = function (req, res) {
+  let idx = req.params.article_idx;
+  articleModel.getArticlePost(idx, function (result) {
+    res.send(result);
+  });
+};
