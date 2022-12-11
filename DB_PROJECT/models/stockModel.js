@@ -55,7 +55,7 @@ module.exports.getStockList = (idx) => {
                       FROM ( \
                           SELECT I.stock_code, I.cop_name, I.market, P.close_price, P.volume \
                           FROM STOCK_INFO AS I INNER JOIN STOCK_PRICE AS P ON I.stock_code=P.stock_code \
-                          WHERE price_date IN ( \
+                          WHERE price_date =ANY ( \
                               SELECT * \
                               FROM ( \
                                   SELECT price_date \
@@ -66,7 +66,7 @@ module.exports.getStockList = (idx) => {
                               ) t1 NATURAL JOIN ( \
                                   SELECT I.stock_code, P.close_price AS y_close_price \
                                   FROM STOCK_INFO AS I INNER JOIN STOCK_PRICE AS P ON I.stock_code=P.stock_code \
-                                  WHERE price_date IN ( \
+                                  WHERE price_date =ANY ( \
                                       SELECT * \
                                       FROM ( \
                                           SELECT DISTINCT(price_date) \
